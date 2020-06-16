@@ -15,6 +15,8 @@
                         <follow-button
                         class="ml-auto"
                         :initial-is-followed-by='@json($user->isFollowedBy(Auth::user()))'
+                        :authorized='@json(Auth::check())'
+                        endpoint="{{ route('users.follow', ['name' => $user->name]) }}"
                         >
                         </follow-button>
                     @endif
@@ -28,13 +30,34 @@
             <div class="card-body">
                 <div class="card-text">
                     <a href="" class="text-muted">
-                        10フォロー
+                        {{ $user->count_followings }}フォロー
                     </a>
                     <a href="" class="text-muted">
-                        10フォロワー
+                        {{ $user->count_followers }}フォロワー
                     </a>
                 </div>
             </div>
         </div>
+        <ul class="nav nav-tabs nav-justified mt-3">
+            <li class="nav-item">
+                <a
+                class="nav-link text-muted active"
+                href="{{ route('users.show', ['name' => $user->name]) }}"
+                >
+                記事
+            </a>
+            </li>
+            <li class="nav-item">
+                <a
+                class="nav-link text-muted"
+                href=""
+                >
+                いいね
+                </a>
+            </li>
+        </ul>
+        @foreach ($articles as $article)
+            @include('articles.card')
+        @endforeach
     </div>
 @endsection
